@@ -13,8 +13,8 @@ struct ContentView: View {
         case red, yellow, green
     }
     
-    @State var currentLight: TrafficLights = .red
-    @State var startButton = "START"
+    @State private var currentLight: TrafficLights = .red
+    @State private var startButton = "START"
     
     var body: some View {
         
@@ -52,7 +52,7 @@ struct ContentView: View {
                                 Circle().stroke(.white, lineWidth: 5)
                             }
                     }
-                }// end zstack
+                }
                 
                 Spacer()
                 
