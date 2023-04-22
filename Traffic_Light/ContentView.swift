@@ -9,55 +9,79 @@ import SwiftUI
 
 struct ContentView: View {
     
-    enum TrafficLightColor {
-        case red
-        case yellow
-        case green
+    enum TrafficLights {
+        case red, yellow, green
     }
     
-    @State var currentColor: TrafficLightColor = .red
+    @State var currentLight: TrafficLights = .red
+    @State var startButton = "START"
     
     var body: some View {
+        
         ZStack {
             Rectangle()
-                .fill(.blue).ignoresSafeArea()
-            VStack {
+                .fill(.black).ignoresSafeArea()
+            
+            VStack() {
+                ZStack {
+                    Rectangle()
+                        .fill(.blue)
+                        .frame(width: 180, height: 480)
+                        .cornerRadius(8)
+                    
+                    VStack {
+                        Circle()
+                            .fill(currentLight == .red ?
+                                .red.opacity(1) : .red.opacity(0.3))
+                            .frame(width: 130, height: 130)
+                            .overlay {
+                                Circle().stroke(.white, lineWidth: 5)
+                            }
+                        Circle()
+                            .fill(currentLight == .yellow ?
+                                .yellow.opacity(1) : .yellow.opacity(0.3))
+                            .frame(width: 130, height: 130)
+                            .overlay {
+                                Circle().stroke(.white, lineWidth: 5)
+                            }
+                        Circle()
+                            .fill(currentLight == .green ?
+                                .green.opacity(1) : .green.opacity(0.3))
+                            .frame(width: 130, height: 130)
+                            .overlay {
+                                Circle().stroke(.white, lineWidth: 5)
+                            }
+                    }
+                }// end zstack
+                
                 Spacer()
                 
-                Circle()
-                    //.stroke(lineWidth: 5)
-                    .fill(currentColor == .red ?
-                        .red.opacity(1) : .red.opacity(0.1))
-                    .frame(width: 130, height: 130)
-                Circle()
-                    //.stroke(Color.yellow ,lineWidth: 2)
-                    .fill(currentColor == .yellow ?
-                        .yellow.opacity(1) : .yellow.opacity(0.1))
-                    .frame(width: 130, height: 130)
-                Circle()
-                    .fill(currentColor == .green ?
-                        .green.opacity(1) : .green.opacity(0.1))
-                    .frame(width: 130, height: 130)
-                
-                Spacer(minLength: 0)
-                
                 Button(action: {
-                    switch self.currentColor {
+                    if startButton == "START" {
+                        startButton = "NEXT" }
+                    
+                    switch self.currentLight {
                     case .red:
-                        self.currentColor = .yellow
+                        self.currentLight = .yellow
                     case .yellow:
-                        self.currentColor = .green
+                        self.currentLight = .green
                     case .green:
-                        self.currentColor = .red
+                        self.currentLight = .red
                     }
-                }, label: {
-                    Text("Switch Lights")
+                }) {
+                    Text(startButton)
+                        .font(.title2)
+                        .frame(width: 140, height: 30)
                         .padding()
                         .foregroundColor(.white)
-                        .background(.black)
+                        .background(.blue)
                         .cornerRadius(16)
-                })
-            }// end vstack
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(.white, lineWidth: 5)
+                        }
+                }
+            }
             .padding()
         }
     }
